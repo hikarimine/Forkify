@@ -1,6 +1,8 @@
 import Search from './models/Search';
+import Search from './models/Recipe';
 import * as searchView from './views/SearchView';
 import { elements, renderLoader, clearLoader } from './views/base';
+
 /*
 Global State of the app
 - Search object
@@ -10,6 +12,13 @@ Global State of the app
 */
 
 const state = {};
+
+
+/*
+**
+**SEARCH CONTROLLER
+**
+*/
 
 const Controlsearch = async () => {
     //1. get query from view
@@ -49,7 +58,11 @@ elements.searchResPages.addEventListener('click', e => {
     }
 });
 
-const search = new Search('pizza');
-console.log(search);
+/*
+**
+**RECIPE CONTROLLER
+**
+*/
 
-search.getResults();
+const r = new Recipe(46956);
+r.getReicpe();
