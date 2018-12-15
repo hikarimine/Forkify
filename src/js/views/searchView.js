@@ -8,6 +8,7 @@ export const clearInput = () => {
 
 export const cleaResults = () => {
     elements.searchResList.innerHTML = '';
+    elements.searchResPages.innerHTML = '';
 }
 
 const limitRecipeTitle = (recipe, limit = 17) => {
@@ -23,13 +24,39 @@ const limitRecipeTitle = (recipe, limit = 17) => {
         return '${newTitle.join(" ")}...';
     } 
     return title;
-}
+};
 
 const renderRecipe = recipe => {
     const markup ='<li><a class="results__link" href="#${recipe.recipe_id}"><figure class="results__fig"><img src="${recipe.image_url}" alt="${recipe.title}"></figure><div class="results__data"><h4 class="results__name">${limitRecipeTitle(${recipe.title})}</h4><p class="results__author">${recipe.publisher}</p></div></a></li>';
     elements.searchResList.insertAdjacentHTML('beforeend', markup);
-}
+};
 
-export const renderResults = recipes => {
-    recipes.forEach(renderRecipe);
-}
+//type: 'prev' or 'next'
+const createButton = (page, type)=>'button class="btn-inline results__btn--${type} data-goto=${type === "prev" ? page - 1: page + 1}"><svg class="search__icon"><use href="img/icons.svg#icon-triangle-${type === "prev" ? "left": "right"}"></use></svg><span>Page ${type === "prev" ? page - 1: page + 1}</span></button>';
+
+
+const renderButtons = (page, numResults, resPerPage) => {
+    const pages = Math.ceil(numResults/resPerPage);
+    let button;
+    if(page === 1 ){
+        button = conscreateButton(page,'next');
+    } else if (page < pages){
+        button = '${conscreateButton(page,"next")}${conscreateButton(page,"next")}';
+    } else if (page === pages && pages > 1){
+        button = conscreateButton(page,'prev');
+    }
+
+    elements.searchResPages.insertAdjacentHTML('aferbegin', button);
+
+};
+
+export const renderResults = (recipes, page = 1, resPerPage = 10) => {
+    //render results of current pages
+    const start = (page - 1) * resPerPage;
+    const end = page * resPerPage;
+
+    recipes.slice(start,end).forEach(renderRecipe);
+
+    //render page buttons
+    renderButtons(page, recipes.length, resPerPage);
+};
