@@ -13,7 +13,6 @@ Global State of the app
 
 const state = {};
 
-
 /*
 **
 **SEARCH CONTROLLER
@@ -33,12 +32,17 @@ const Controlsearch = async () => {
         searchView.clearResults();
         renderLoader(elements.searchRes);
 
-        //4. Search for recipes
-        await state.search.getResults();
+        try{
+            //4. Search for recipes
+            await state.search.getResults();
 
-        //5. render results on UI
-        clearLoader();
-        searchView.renderResults(state.search.result);
+            //5. render results on UI
+            clearLoader();
+            searchView.renderResults(state.search.result);
+        } catch (err){
+            alert('somethign went wrong');
+        }
+
     }
 
 }
@@ -72,14 +76,23 @@ const controlRecipe = async () => {
         //create new recipe object
         state.recipe = new Recipe(id);
 
-        //get recipe data
-        await state.recipe.getRecipe();
+        try{
+            //get recipe data
+            await state.recipe.getRecipe();
+            state.recipe.parseIngredients();
 
-        //calculate servings and time 
-        state.recipe.calcTime();
-        state.recipe.calcServings();
-        //render recipe
+            //calculate servings and time 
+            state.recipe.calcTime();
+            state.recipe.calcServings();
+
+            //render recipe
+        } catch (err) {
+            alert('something went wrong');
+        }
+        
 
     }
 };
-window.addEventListener('hashchange', controlRecipe);
+
+
+['hashchange', 'load'].forEach(event => window.addEventListener(event,controlRecipe));
