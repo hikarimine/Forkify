@@ -1,10 +1,10 @@
 # Forkify
 
-## DESCRIPTION
+## Description
 A project using the food2fork API  to recover recipes, show the ingredients needed for them and creating a list with your favorites.
 Written in HTML, CSS, JavaScript(ES6).
 
-## FUNCTIONALITIES
+## Functionalities
 <ul>
 <li>let users type food menu in a seach box, recover recipes from Food2fork (https://www.food2fork.com/) and show the result in a list.</li>
 <li>let users add the ingredients of the menus of their choices to shopping list, change the amount, and delete the ingredient.</li>
