@@ -171,7 +171,7 @@ const controlLike = () => {
         //add like to UI list
         likesView.renderLike(newLike);
 
-    //user has liked current recipe
+        //user has liked current recipe
     } else {
         //remove like fromthe state
         state.likes.deleteLike(currentID);
@@ -183,7 +183,21 @@ const controlLike = () => {
         likesView.deleteLike(currentID);
     }
     listView.toggleLikeMenu(state.likes.getNumLikes());
-}
+};
+
+//Resore liked recipes on page load
+window.addEventListener('load', () => {
+    state.likes = new Likes();
+
+    //restore likes
+    state.likes.readStorage();
+
+    //toggle like menu button
+    likesView.toggleLikeMenu(state.likes.getLikes());
+
+    //render the existing likes
+    state.likes.likes.forEach(like => likesView.renderLike(like));
+});
 
 
 
